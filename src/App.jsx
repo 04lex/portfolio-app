@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Github, Linkedin, Mail, ExternalLink, Menu, X, Download, ChevronDown, Moon, Sun, Code2, Database, Terminal } from 'lucide-react';
+import { 
+  Github, Linkedin, Mail, ExternalLink, Menu, X, Download, ChevronDown, Moon, Sun, Code2, Database, Terminal, Code, FileCode, Boxes, Layers, Server, Cloud, GitBranch, Container
+} from 'lucide-react';
 
 // ForesightJS Hook Implementation
 const useForesight = (options = {}) => {
@@ -39,18 +41,38 @@ const useForesight = (options = {}) => {
 const Portfolio = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedProject, setExpandedProject] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkMode');
+    return saved === 'true';
+  });
   const [imagesLoaded, setImagesLoaded] = useState({});
   const [preloadedImages, setPreloadedImages] = useState(new Set());
 
-  // Initialize dark mode from memory
-  useEffect(() => {
-    const savedMode = window.darkModePreference === 'true';
-    setDarkMode(savedMode);
-  }, []);
+  const skillIcons = {
+  'Python': <Code2 size={16} />,
+  'JavaScript': <FileCode size={16} />,
+  'SQL': <Database size={16} />,
+  'TypeScript': <FileCode size={16} />,
+  'React': <Boxes size={16} />,
+  'Node.js': <Server size={16} />,
+  'Docker': <Container size={16} />,
+  'Git': <GitBranch size={16} />,
+  'AWS': <Cloud size={16} />,
+  'PostgreSQL': <Database size={16} />,
+  'MongoDB': <Database size={16} />,
+  'Redis': <Database size={16} />,
+  'Flask': <Server size={16} />,
+  'Django': <Server size={16} />,
+  'FastAPI': <Server size={16} />,
+  'HTML/CSS': <Code size={16} />,
+  'CI/CD': <GitBranch size={16} />,
+  'Testing': <Code size={16} />,
+};
 
+  // Initialize dark mode from memory - old
+  // Initialize dark mode from localStorage
   useEffect(() => {
-    window.darkModePreference = darkMode;
+    localStorage.setItem('darkMode', darkMode.toString());
   }, [darkMode]);
 
   // Connection-aware image quality detection
@@ -73,7 +95,7 @@ const Portfolio = () => {
         imageQuality = 'low';
       }
 
-      window.imageQualityPreference = imageQuality;
+      localStorage.setItem('imageQuality', imageQuality);
     };
 
     loadImages();
@@ -104,6 +126,8 @@ const Portfolio = () => {
     return () => imageObserver.disconnect();
   }, [expandedProject]);
 
+
+  // Portfolio data
   const portfolioData = {
     name: "Daniel Alexandru",
     title: "Python Developer | Software Engineering Intern",
@@ -240,11 +264,12 @@ const Portfolio = () => {
       }
     ],
     
-    experience: [
+    education: [
       {
-        title: "Software Engineering Intern",
-        company: "TechCorp Solutions",
-        duration: "Jun 2024 - Aug 2024",
+        title: "Certified Python Developer",
+        company: "linkgroup",
+        website: "https://linkgroup.ro",
+        duration: "Nov 2022 - Feb 2024",
         achievements: [
           "Developed Python microservices processing 50,000+ daily transactions",
           "Reduced API response time by 45% through database optimization and caching",
@@ -254,9 +279,10 @@ const Portfolio = () => {
         tech: ["Python", "Django", "PostgreSQL", "Redis", "Docker"]
       },
       {
-        title: "Backend Developer",
-        company: "University Research Lab",
-        duration: "Jan 2024 - May 2024",
+        title: "Baccalaureate Diploma",
+        company: "The International Computer High School of Constanta",
+        website: "https://www.hsc.ro",
+        duration: "Sep 2018 - Jun 2022",
         achievements: [
           "Built data processing pipeline for analyzing 100GB+ research datasets",
           "Automated data collection reducing manual work by 80%",
@@ -300,7 +326,7 @@ const Portfolio = () => {
   // Optimized image component with ForesightJS principles
   const OptimizedImage = ({ src, lowResSrc, alt, className }) => {
     const [isLoaded, setIsLoaded] = useState(false);
-    const imageQuality = window.imageQualityPreference || 'high';
+    const imageQuality = localStorage.getItem('imageQuality') || 'high';
     
     const imageSrc = imageQuality === 'low' ? lowResSrc : src;
 
@@ -474,7 +500,7 @@ const Portfolio = () => {
             </h1>
             
             <div className="hidden md:flex items-center gap-8">
-              {['about', 'projects', 'experience', 'contact'].map((section) => (
+              {['about', 'projects', 'education', 'contact'].map((section) => (
                 <NavButton key={section} section={section}>
                   {section}
                 </NavButton>
@@ -514,7 +540,7 @@ const Portfolio = () => {
           
           {mobileMenuOpen && (
             <div className="md:hidden mt-4 pb-4 space-y-3">
-              {['about', 'projects', 'experience', 'contact'].map((section) => (
+              {['about', 'projects', 'education', 'contact'].map((section) => (
                 <button
                   key={section}
                   onClick={() => scrollToSection(section)}
@@ -638,7 +664,12 @@ const Portfolio = () => {
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {skills.map((skill, i) => (
-                    <span key={i} className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${darkMode ? 'bg-gray-800 text-gray-300 hover:bg-gray-600' : 'bg-white text-gray-700 hover:bg-gray-100'}`}>
+                    <span key={i} className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-2 ${darkMode ? 'bg-gray-800 text-gray-300 hover:bg-gray-600' : 'bg-white text-gray-700 hover:bg-gray-100'}`}>
+                      {skillIcons[skill] && (
+                        <span className={darkMode ? 'text-blue-400' : 'text-blue-600'}>
+                          {skillIcons[skill]}
+                        </span>
+                      )}
                       {skill}
                     </span>
                   ))}
@@ -664,23 +695,38 @@ const Portfolio = () => {
         </div>
       </section>
 
-      <section id="experience" className={`py-24 px-6 ${darkMode ? 'bg-gray-800/50' : 'bg-white'}`}>
+      <section id="education" className={`py-24 px-6 ${darkMode ? 'bg-gray-800/50' : 'bg-white'}`}>
         <div className="max-w-5xl mx-auto">
           <h2 className={`text-4xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-            Experience
+            Education
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mb-16 rounded-full"></div>
           
           <div className="space-y-12">
-            {portfolioData.experience.map((exp, i) => (
+            {portfolioData.education.map((exp, i) => (
               <div key={i} className={`relative pl-8 border-l-2 ${darkMode ? 'border-blue-500' : 'border-blue-600'}`}>
                 <div className={`absolute -left-2 top-0 w-4 h-4 rounded-full ${darkMode ? 'bg-blue-500' : 'bg-blue-600'}`}></div>
                 <h3 className={`text-2xl font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   {exp.title}
                 </h3>
-                <p className={`mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  {exp.company} | {exp.duration}
-                </p>
+                <div className="mb-4">
+                  <p className={darkMode ? 'text-gray-400' : 'text-gray-600'}>
+                    {exp.website ? (
+                      <a 
+                        href={exp.website} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className={`inline-flex items-center gap-1.5 font-semibold transition-colors ${darkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-500'}`}
+                      >
+                        {exp.company}
+                        <ExternalLink size={14} />
+                      </a>
+                    ) : (
+                      <span className="font-semibold">{exp.company}</span>
+                    )}
+                    <span className="ml-2">| {exp.duration}</span>
+                  </p>
+                </div>
                 <ul className="space-y-3 mb-5">
                   {exp.achievements.map((achievement, j) => (
                     <li key={j} className={`flex items-start ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
