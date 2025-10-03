@@ -127,7 +127,7 @@ const Portfolio = () => {
   }, [expandedProject]);
 
 
-  // Portfolio data
+  // Portfolio data ------------------------------------------------------------
   const portfolioData = {
     name: "Daniel Alexandru",
     title: "Python Developer | Software Engineering Intern",
@@ -135,7 +135,7 @@ const Portfolio = () => {
     email: "aalexandrua62@gmail.com",
     github: "https://github.com/04lex",
     linkedin: "https://www.linkedin.com/in/daniel-alexandru-105712180/",
-    resume: "#",
+    resume: "https://danielalexandru.xyz/CVEuropass.pdf",
     
     about: {
       description: "I'm a Computer Science student with a passion for backend development and data engineering. I specialize in building scalable Python applications and RESTful APIs. My approach combines clean code principles with practical problem-solving to deliver solutions that make a real impact. Currently seeking internship opportunities where I can contribute to meaningful projects and grow as a developer.",
