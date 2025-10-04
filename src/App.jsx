@@ -153,22 +153,22 @@ const Portfolio = () => {
     projects: [
       {
         id: 1,
-        title: "E-Commerce API Platform",
-        shortDesc: "Scalable REST API with payment integration and real-time inventory",
-        fullDesc: "Built a comprehensive e-commerce backend supporting 10,000+ concurrent users. Implemented secure payment processing with Stripe, real-time inventory management, and order tracking system.",
-        tech: ["Python", "Django", "PostgreSQL", "Redis", "Celery"],
+        title: "Real-Time Currency Converter",
+        shortDesc: "Live exchange rate converter supporting 160+ currencies with API integration",
+        fullDesc: "Built a responsive currency conversion tool using live exchange rate data. Features instant conversion calculations, support for major and minor currencies, and an intuitive user interface. Deployed on Vercel with optimized performance.",
+        tech: ["JavaScript", "React", "API Integration", "CSS"],
         features: [
-          "JWT authentication with role-based access control",
-          "Stripe payment integration with webhook handling",
-          "Real-time inventory updates using Redis cache",
-          "Asynchronous task processing with Celery",
-          "RESTful API with comprehensive documentation"
+          "Real-time exchange rates from external API",
+          "Support for 160+ international currencies",
+          "Instant conversion calculations as you type",
+          "Clean and responsive user interface",
+          "Swap currencies with one click"
         ],
-        challenges: "Optimized database queries reducing response time by 70%. Implemented Redis caching strategy for frequently accessed product data.",
-        liveUrl: "https://ecommerce-api-demo.vercel.app",
-        githubUrl: "https://github.com/alexrivera/ecommerce-api",
-        image: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=500&fit=crop",
-        imageLowRes: "https://images.unsplash.com/photo-1557821552-17105176677c?w=400&h=250&fit=crop&q=30"
+        challenges: "Implemented debouncing for API calls to reduce requests and improve performance. Handled API rate limiting and error states gracefully with user-friendly error messages.",
+        liveUrl: "https://currency-converter-fawn-chi.vercel.app/",
+        githubUrl: "https://github.com/04lex/currency-converter",
+        image: "/currencyconvertpreview.png",
+        imageLowRes: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400&h=250&fit=crop&q=30"
       },
       {
         id: 2,
@@ -268,7 +268,7 @@ const Portfolio = () => {
       {
         title: "Certified Python Developer",
         company: "linkgroup",
-        website: "https://linkgroup.ro",
+        website: "https://www.link-group.eu/",
         duration: "Nov 2022 - Feb 2024",
         achievements: [
           "Developed Python microservices processing 50,000+ daily transactions",
@@ -281,7 +281,7 @@ const Portfolio = () => {
       {
         title: "Baccalaureate Diploma",
         company: "The International Computer High School of Constanta",
-        website: "https://www.hsc.ro",
+        website: "https://ichc.ro/",
         duration: "Sep 2018 - Jun 2022",
         achievements: [
           "Built data processing pipeline for analyzing 100GB+ research datasets",
@@ -290,6 +290,28 @@ const Portfolio = () => {
           "Documented codebase and created technical guides for future developers"
         ],
         tech: ["Python", "FastAPI", "MongoDB", "Pandas"]
+      },
+      {
+        title: "ECDL Profile Certificate",
+        company: "ECDL",
+        website: "https://www.ecdl.ro/",
+        duration: "Nov 2021",
+        achievements: [
+          "Completed ECDL modules in Word, Excel, PowerPoint, and Internet",
+          "Achieved ECDL Advanced certificate level"
+        ],
+        tech: ["Microsoft Office", "Internet", "PowerPoint", "Word", "Excel"]
+      },
+      {
+        title: "English – B1 (Cambridge Preliminary – PETCertificate, Entry Level 3)",
+        company: "Cambridge English Language Assessment",
+        website: "https://www.cambridgeenglish.org/",
+        duration: "Jul 2017",
+        achievements: [
+          "Achieved B1 level in English",
+          "Completed Cambridge Preliminary – PET Certificate, Entry Level 3"
+        ],
+        tech: ["English", "Cambridge English Language Assessment"]
       }
     ]
   };
@@ -329,11 +351,11 @@ const Portfolio = () => {
     const imageQuality = localStorage.getItem('imageQuality') || 'high';
     
     const imageSrc = imageQuality === 'low' ? lowResSrc : src;
-
+  
     return (
       <div className={`relative ${className}`}>
         <img
-          data-src={imageSrc}
+          src={imageSrc}
           alt={alt}
           className={`w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
           onLoad={() => setIsLoaded(true)}
@@ -507,7 +529,7 @@ const Portfolio = () => {
               ))}
               <a
                 href={portfolioData.resume}
-                download
+                download="/CVEuropass.pdf"
                 className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium shadow-md hover:shadow-lg"
               >
                 <Download size={16} />
