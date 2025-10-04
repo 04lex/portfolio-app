@@ -232,10 +232,29 @@ const Portfolio = () => {
   });
   const [imagesLoaded, setImagesLoaded] = useState({});
   const [preloadedImages, setPreloadedImages] = useState(new Set());
+  const [activeSection, setActiveSection] = useState('about');
 
   // fade in animations
   useFadeInOnScroll();
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['about', 'projects', 'education', 'contact'];
+      const current = sections.find(section => {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          return rect.top <= 100 && rect.bottom >= 100;
+        }
+        return false;
+      });
+      if (current) setActiveSection(current);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // LANGUAGE ICONS
   const skillIcons = {
     Python: <Code2 size={16} />,
     JavaScript: <FileCode size={16} />,
@@ -501,12 +520,13 @@ const Portfolio = () => {
         website: "https://www.link-group.eu/",
         duration: "Nov 2022 - Feb 2024",
         achievements: [
-          "Developed Python microservices processing 50,000+ daily transactions",
-          "Reduced API response time by 45% through database optimization and caching",
-          "Implemented automated testing suite achieving 90% code coverage",
-          "Collaborated with 8-person team using Agile methodologies and Git workflow",
+          "Completed 10 comprehensive modules covering Python fundamentals, OOP, web development, and database programming",
+          "Built web applications using Python frameworks and MySQL database integration",
+          "Developed automated testing suites for quality assurance and software validation",
+          "Created GUI applications and implemented data processing solutions using Python libraries",
+          "Mastered HTML/CSS fundamentals for full-stack development capabilities",
         ],
-        tech: ["Python", "Django", "PostgreSQL", "Redis", "Docker"],
+        tech: ["Python", "MySQL", "HTML/CSS", "OOP", "Test Automation", "Web Development"],
       },
       {
         title: "Baccalaureate Diploma",
@@ -514,12 +534,13 @@ const Portfolio = () => {
         website: "https://ichc.ro/",
         duration: "Sep 2018 - Jun 2022",
         achievements: [
-          "Built data processing pipeline for analyzing 100GB+ research datasets",
-          "Automated data collection reducing manual work by 80%",
-          "Created REST API serving research data to 200+ student users",
-          "Documented codebase and created technical guides for future developers",
+          "Specialized in computer science and informatics at a technical high school",
+          "Participated in LEGO EV3 Mindstorms robotics courses and programming competitions",
+          "Competed in international robotics competitions in Estonia - Robotex (2018) and Poland - FLL (2019)",
+          "Developed foundation in programming, algorithms, and computer science principles",
+          "Completed coursework in mathematics and information technology",
         ],
-        tech: ["Python", "FastAPI", "MongoDB", "Pandas"],
+        tech: ["Programming Fundamentals", "Algorithms", "LEGO Mindstorms", "Robotics", "Mathematics"],
       },
       {
         title: "ECDL Profile Certificate",
@@ -751,18 +772,25 @@ const Portfolio = () => {
     const { elementRef } = useForesight({
       onPredict: () => {
         preloadSection(section);
-      },
+      }
     });
-
+    
+    const isActive = activeSection === section;
+  
     return (
       <button
         ref={elementRef}
         onClick={() => scrollToSection(section)}
-        className={`capitalize transition-colors font-medium hover:text-blue-600 ${
-          darkMode ? "text-gray-300" : "text-gray-600"
+        className={`capitalize transition-colors font-medium relative ${
+          isActive 
+            ? 'text-blue-600' 
+            : darkMode ? 'text-gray-300 hover:text-blue-400' : 'text-gray-600 hover:text-blue-600'
         }`}
       >
         {children}
+        {isActive && (
+          <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-600"></span>
+        )}
       </button>
     );
   };
